@@ -1,4 +1,49 @@
-<!DOCTYPE html>
+<?php
+// Paramètres de connexion à la base de données
+$servername = "localhost"; // Adresse du serveur MySQL
+$username = "root"; // Nom d'utilisateur MySQL
+$password = ""; // Mot de passe MySQL
+$database = "clinique"; // Nom de la base de données MySQL
+
+// Création de la connexion
+$conn = new mysqli($servername, $username, $password, $database);
+
+// Vérification de la connexion
+if ($conn->connect_error) {
+    die("La connexion à la base de données a échoué : " . $conn->connect_error);
+}
+
+// Récupération des données soumises par le formulaire
+$email = $_POST["email"];
+$password = $_POST["password"];
+
+// Préparation de la requête SQL pour vérifier les identifiants de l'utilisateur
+$sql = "SELECT * FROM users WHERE email = '$email' AND password = '$password'";
+
+// Exécution de la requête
+$result = $conn->query($sql);
+
+// Vérification du nombre de lignes retournées par la requête
+if ($result->num_rows > 0) {
+    // L'utilisateur existe dans la base de données
+    // Redirection vers le dashboard ou autre action selon votre logique
+    header("Location: dashboard.php");
+    exit;
+} else {
+    // L'utilisateur n'existe pas dans la base de données
+    // Vous pouvez afficher un message d'erreur ou rediriger vers une autre page
+    echo "Identifiants incorrects";
+}
+
+// Fermeture de la connexion à la base de données
+$conn->close();
+?>
+
+
+
+
+
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -14,7 +59,7 @@
     
 </head>
 <body>
-    <?php
+    <!-- <?php
 
     //learn from w3schools.com
     //Unset all the server side variables
@@ -186,4 +231,4 @@
     </div>
 </center>
 </body>
-</html>
+</html> --> -->
